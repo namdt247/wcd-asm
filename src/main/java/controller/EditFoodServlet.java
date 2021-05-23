@@ -49,26 +49,38 @@ public class EditFoodServlet extends HttpServlet {
             return;
         }
 
+        int cateId = 0;
+        double parsePrice = 0;
+
         String name = req.getParameter("name");
-        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        String categoryId = req.getParameter("categoryId");
+        if (categoryId != null && !categoryId.trim().equals("")) {
+            cateId = Integer.parseInt(categoryId);
+        }
         String description = req.getParameter("description");
         String thumbnail = req.getParameter("thumbnail");
-        double price = Double.parseDouble(req.getParameter("price"));
-        int status = Integer.parseInt(req.getParameter("status"));
-
-        if (!currentFood.isValid()) {
-            Map<String, String> errors = currentFood.getErrors();
-            req.setAttribute("errors", errors);
-            req.getRequestDispatcher("/admin/foods/edit.jsp").forward(req, resp);
-            return;
+        String price = req.getParameter("price");
+        if (price != null && !price.trim().equals("")) {
+            parsePrice = Double.parseDouble(price);
         }
+        int status = Integer.parseInt(req.getParameter("status"));
 
         currentFood.setName(name);
         currentFood.setDescription(description);
         currentFood.setThumbnail(thumbnail);
-        currentFood.setPrice(price);
-        currentFood.setCategoryId(categoryId);
+        currentFood.setPrice(parsePrice);
+        currentFood.setCategoryId(cateId);
         currentFood.setStatus(status);
+
+        if (!currentFood.isValid()) {
+            Map<String, String> errors = currentFood.getErrors();
+            req.setAttribute("food", foodService.getById(foodId));
+            req.setAttribute("errors", errors);
+            resp.sendRedirect("/admin/foods/edit?foodId=" + currentFood.getId());
+//            req.getRequestDispatcher("/admin/foods/edit.jsp").forward(req, resp);
+            return;
+        }
+
         foodService.edit(foodId, currentFood);
         resp.sendRedirect("/admin/foods/list");
     }

@@ -34,7 +34,7 @@
                 <a class="nav-link" href="#">Trang chủ<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Danh sách món ăn</a>
+                <a class="nav-link" href="/admin/foods/list">Danh sách món ăn</a>
             </li>
         </ul>
     </div>
@@ -48,6 +48,7 @@
         <% if (errors != null) {%>
             <%=errors%>
         <%}%>
+        <%=errors%>
     </div>
     <div>
         <div class="">
@@ -57,7 +58,8 @@
                     <th scope="col">STT</th>
                     <th scope="col">Tên món ăn</th>
                     <th scope="col">Giá</th>
-                    <th scope="col">Hình ảnh món ăn</th>
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Mô tả</th>
                     <th scope="col">Danh mục</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">Thao tác</th>
@@ -72,8 +74,9 @@
                     <td><%= listFoods.get(i).getName() %></td>
                     <td><%= listFoods.get(i).getPrice() %></td>
                     <td>
-                        <img src="<%= listFoods.get(i).getThumbnail() %>" alt="thumbnail" width="120" height="120"/>
+                        <img src="<%= listFoods.get(i).getThumbnail() %>" alt="thumbnail" width="80" height="80"/>
                     </td>
+                    <td><%= listFoods.get(i).getDescription() %></td>
                     <td><%= listFoods.get(i).getCategoryName(listFoods.get(i).getCategoryId()).getName() %></td>
                     <td class="text-danger">
                         <%= listFoods.get(i).getStatus() == 1 ? "Đang bán" : "Dừng bán" %>

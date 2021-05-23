@@ -1,6 +1,7 @@
 <%@ page import="entity.Food" %>
 <%@ page import="entity.Category" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %><%--
   Created by IntelliJ IDEA.
   User: Win10Pro
   Date: 4/23/2021
@@ -11,6 +12,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     Food food = (Food) request.getAttribute("food");
+    Map<String, String> errors = (Map<String, String>) request.getAttribute("errors");
     List<Category> categoryList = (List<Category>) request.getAttribute("categoryList");
 %>
 <html>
@@ -42,7 +44,7 @@
                 <a class="nav-link" href="#">Trang chủ<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Danh sách món ăn</a>
+                <a class="nav-link" href="/admin/foods/list">Danh sách món ăn</a>
             </li>
         </ul>
     </div>
@@ -76,7 +78,7 @@
                 <div class="form-group">
                     <label>Ảnh món ăn</label>
                     <img src="<%= food.getThumbnail() %>" alt="thumbnail" class="img-fluid"/>
-                    <input type="text" value="<%= food.getThumbnail() == null ? food.getThumbnail() : "" %>" class="form-control" name="thumbnail" />
+                    <input type="text" value="<%= food.getThumbnail() != null ? food.getThumbnail() : "" %>" class="form-control" name="thumbnail" />
                 </div>
 
                 <div class="form-group">
@@ -92,8 +94,15 @@
                         <option <%= food.getStatus() == 2 ? "selected" : "" %> value="2">Dừng bán</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Cập nhật</button>
-                <a href="/admin/foods/list" class="btn btn-dander">Huỷ bỏ</a>
+                <c:forEach items="${errors}" var="item">
+                    <div class="text-danger">
+                            ${item.value}
+                    </div>
+                </c:forEach>
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <a href="/admin/foods/list" class="btn btn-danger">Huỷ bỏ</a>
+                </div>
             </div>
         </div>
     </form>

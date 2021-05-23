@@ -45,7 +45,7 @@
                 <a class="nav-link" href="#">Trang chủ<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Danh sách món ăn</a>
+                <a class="nav-link" href="/admin/foods/list">Danh sách món ăn</a>
             </li>
         </ul>
     </div>
